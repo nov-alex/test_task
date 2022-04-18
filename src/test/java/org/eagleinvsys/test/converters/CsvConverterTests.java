@@ -1,21 +1,19 @@
 package org.eagleinvsys.test.converters;
 
 import org.eagleinvsys.test.converters.impl.CsvConverter;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
 class CsvConverterTests {
-
-    private AutoCloseable closeable;
     @Mock
     private ConvertibleCollection convertibleCollection;
     @Mock
@@ -24,16 +22,6 @@ class CsvConverterTests {
     private Iterable<ConvertibleMessage> iterable;
     @Mock
     private Iterator<ConvertibleMessage> iterator;
-
-    @BeforeEach
-    void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    void releaseMocks() throws Exception {
-        closeable.close();
-    }
 
     @Test
     void givenMockedConvertibleCollection_thenCorrectConvert() {

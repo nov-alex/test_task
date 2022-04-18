@@ -6,33 +6,32 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConvertibleCollectionImplTest {
 
-    private final Map<String, String> map1 = new LinkedHashMap<>();
-    private final Map<String, String> map2 = new LinkedHashMap<>();
-    private final Map<String, String> map3 = new LinkedHashMap<>();
+    private final Map<String, String> rowMap1 = new LinkedHashMap<>();
+    private final Map<String, String> rowMap2 = new LinkedHashMap<>();
+    private final Map<String, String> rowMap3 = new LinkedHashMap<>();
     private final List<Map<String, String>> collection = new ArrayList<>();
     private final List<String> headers = new ArrayList<>();
 
     @BeforeAll
     public void setUp() {
+        String header;
         for (int i = 1; i <= 3; i++) {
-            map1.put("header" + i, "value1" + i);
-            map2.put("header" + i, "value2" + i);
-            map3.put("header" + i, "value3" + i);
+            header = "header" + i;
+            rowMap1.put(header, "value1" + i);
+            rowMap2.put(header, "value2" + i);
+            rowMap3.put(header, "value3" + i);
 
-            headers.add("header" + i);
+            headers.add(header);
         }
 
-        collection.add(map1);
-        collection.add(map2);
-        collection.add(map3);
+        collection.add(rowMap1);
+        collection.add(rowMap2);
+        collection.add(rowMap3);
 
     }
 
@@ -46,18 +45,18 @@ class ConvertibleCollectionImplTest {
     void givenCollection_whenGetRecords_thenCorrectlyReturned() {
         ConvertibleCollectionImpl convertibleCollection = new ConvertibleCollectionImpl(collection);
         int j = 1;
-        Map<String, String> map;
+        Map<String, String> rowMap;
 
         for (ConvertibleMessage message : convertibleCollection.getRecords()) {
-            map = switch (j) {
-                case 1 -> map1;
-                case 2 -> map2;
-                case 3 -> map3;
+            rowMap = switch (j) {
+                case 1 -> rowMap1;
+                case 2 -> rowMap2;
+                case 3 -> rowMap3;
                 default -> null;
             };
-            Assertions.assertNotNull(map);
+            Assertions.assertNotNull(rowMap);
             for (int i = 1; i <= 3; i++) {
-                Assertions.assertEquals(map.get("header" + i), message.getElement("header" + i));
+                Assertions.assertEquals(rowMap.get("header" + i), message.getElement("header" + i));
             }
             j++;
         }

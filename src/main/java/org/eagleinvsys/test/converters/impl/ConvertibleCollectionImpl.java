@@ -9,22 +9,25 @@ import java.util.Map;
 public class ConvertibleCollectionImpl implements ConvertibleCollection {
 
     private final List<Map<String, String>> collection;
-    private List<String> headers;
+    private final List<String> headers;
 
     public ConvertibleCollectionImpl(List<Map<String, String>> collection) {
         this.collection = collection;
+        this.headers = calculateHeaders(collection);
+    }
+
+    private List<String> calculateHeaders(List<Map<String, String>> collection) {
+        List<String> collHeaders;
+        if (collection.isEmpty()) {
+            collHeaders = List.of();
+        } else {
+            collHeaders = collection.get(0).keySet().stream().toList();
+        }
+        return collHeaders;
     }
 
     @Override
     public List<String> getHeaders() {
-        if (headers != null) {
-            return headers;
-        }
-        List<String> tempHeaders = List.of();
-        if (!collection.isEmpty()) {
-            tempHeaders = collection.get(0).keySet().stream().toList();
-        }
-        headers = tempHeaders;
         return headers;
     }
 

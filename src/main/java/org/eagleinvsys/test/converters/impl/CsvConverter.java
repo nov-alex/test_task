@@ -21,22 +21,22 @@ public class CsvConverter implements Converter {
      */
     @Override
     public void convert(ConvertibleCollection collectionToConvert, OutputStream outputStream) {
-        CsvFormat csvFormat = new CsvFormatter();
+        CsvFormatter csvFormatter = new CsvFormatterImpl();
         try {
-            outputStream.write(formatHeaders(collectionToConvert, csvFormat));
+            outputStream.write(formatHeaders(collectionToConvert, csvFormatter));
             for (ConvertibleMessage convertibleMessage : collectionToConvert.getRecords()) {
-                outputStream.write(formatRecord(convertibleMessage, collectionToConvert.getHeaders(), csvFormat));
+                outputStream.write(formatRecord(convertibleMessage, collectionToConvert.getHeaders(), csvFormatter));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private byte[] formatHeaders(ConvertibleCollection collectionToConvert, CsvFormat formatter) {
+    private byte[] formatHeaders(ConvertibleCollection collectionToConvert, CsvFormatter formatter) {
         return formatter.formatAsLine(collectionToConvert.getHeaders()).getBytes(StandardCharsets.UTF_8);
     }
 
-    private byte[] formatRecord(ConvertibleMessage convertibleMessage, Collection<String> headers, CsvFormat formatter) {
+    private byte[] formatRecord(ConvertibleMessage convertibleMessage, Collection<String> headers, CsvFormatter formatter) {
         List<String> list = new ArrayList<>();
         for (String header : headers) {
             list.add(convertibleMessage.getElement(header));
