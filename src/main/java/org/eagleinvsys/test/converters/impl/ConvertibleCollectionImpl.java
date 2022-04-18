@@ -13,17 +13,15 @@ public class ConvertibleCollectionImpl implements ConvertibleCollection {
 
     public ConvertibleCollectionImpl(List<Map<String, String>> collection) {
         this.collection = collection;
-        this.headers = calculateHeaders(collection);
+        this.headers = calculateHeaders();
     }
 
-    private List<String> calculateHeaders(List<Map<String, String>> collection) {
-        List<String> collHeaders;
+    private List<String> calculateHeaders() {
         if (collection.isEmpty()) {
-            collHeaders = List.of();
+            return List.of();
         } else {
-            collHeaders = collection.get(0).keySet().stream().toList();
+            return collection.get(0).keySet().stream().toList();
         }
-        return collHeaders;
     }
 
     @Override

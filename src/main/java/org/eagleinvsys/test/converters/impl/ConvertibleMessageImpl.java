@@ -16,4 +16,6 @@ public class ConvertibleMessageImpl implements ConvertibleMessage {
     public String getElement(String elementId) {
         return map.get(elementId);
     }
+
+
 }
